@@ -1,0 +1,15 @@
+# Verified environment. Every file in outputs/ was reproduced byte-identically,
+# and all nine data files re-verified against data/raw/, under exactly:
+#
+#   Python 3.13.14, pandas 3.0.1, numpy 2.4.2, statsmodels 0.14.6,
+#   scipy 1.17.0                                    (11 August 2026)
+#
+# The results were originally produced under pandas 2.3.3, and the pipeline was
+# written against the 2.x API. Both major versions give the same numbers, so the
+# floors below are floors and there is no ceiling. If you are pinning for an
+# audit, pin the set above, which is the one actually checked.
+pandas>=2.2
+numpy<3
+statsmodels>=0.14
+scipy>=1.10           # normal CDF for the one-sided mechanism tests in duration_test.py
+openpyxl>=3.1         # reads the Bank of England workbooks in prepare_data.py

@@ -1,0 +1,65 @@
+================================================================================================
+Duration vs business-cycle predictive regressions
+12m-ahead bond, growth-leg, value-leg and HML returns regressed on CP, the leg contrast, and a horizon profile
+================================================================================================
+  CP construction R2 (forwards -> 12m bond excess return) : 0.153
+  coefs f1..f5                                            : -2.46  +7.11  -11.36  +8.13  -1.18
+
+------------------------------------------------------------------------------------------------
+Predictive regression on standardized CP (per 1 SD), NW 18 lags
+------------------------------------------------------------------------------------------------
+| target                  | beta/SD | NW t |    R2 |
+|-------------------------|---------|------|-------|
+| 12m BONDS (excess)      |   +1.36 | 3.88 | 0.153 |
+| 12m GROWTH leg (excess) |   +0.40 | 0.22 | 0.000 |
+| 12m VALUE leg (excess)  |   +2.67 | 1.73 | 0.022 |
+| 12m HML (value-growth)  |   +2.34 | 1.91 | 0.034 |
+Loadings are per standard deviation of CP. NW 18 lags for the 12m overlap.
+
+------------------------------------------------------------------------------------------------
+2) The leg contrast b_v - b_g
+------------------------------------------------------------------------------------------------
+The contrast VALUE - GROWTH is H - L, so it is itself a regressand and carries its own standard error.
+| specification         | beta/SD |  NW t | one-sided p vs duration | two-sided p |
+|-----------------------|---------|-------|-------------------------|-------------|
+| GROWTH leg  b_g       |   +0.40 | +0.22 |                   0.413 |       0.827 |
+| VALUE leg   b_v       |   +2.67 | +1.73 |                   0.042 |       0.084 |
+| CONTRAST    b_v - b_g |   +2.26 | +1.87 |                   0.030 |       0.061 |
+One-sided p is P(beta <= 0); two-sided p tests beta = 0 against any alternative. The contrast row is the test, the two leg rows its components.
+The contrast, restated
+  contrast b_v - b_g (per 1 SD of CP)            : +2.264 pp over 12m
+  NW t on the contrast                           : +1.87
+  one-sided p against the duration null          : 0.030
+  growth leg, two-sided p (is it moving at all?) : 0.827
+
+------------------------------------------------------------------------------------------------
+2c) The same contrast, using the real-time CP factor instead
+------------------------------------------------------------------------------------------------
+Sections 1 and 2 fit CP once over the full sample. Here CP is rebuilt by expanding, realised-only regression and the contrast re-estimated on it.
+| specification         |   n | beta/SD |  NW t | one-sided p vs duration | two-sided p |
+|-----------------------|-----|---------|-------|-------------------------|-------------|
+| GROWTH leg  b_g       | 601 |   -1.39 | -0.58 |                   0.719 |       0.563 |
+| VALUE leg   b_v       | 601 |   +2.22 | +1.09 |                   0.139 |       0.277 |
+| CONTRAST    b_v - b_g | 601 |   +3.61 | +2.21 |                   0.014 |       0.027 |
+Real-time CP, standardised by an expanding z-score. Shorter sample than section 2.
+
+------------------------------------------------------------------------------------------------
+3) Horizon profile, h = 1 to 24 months
+------------------------------------------------------------------------------------------------
+CP forecasts the 12m-ahead bond return, so h=12 is its own horizon. The cumulative loading grows with h by construction; the annualised column and the t do not.
+| horizon |   n | NW lags | cumulative beta/SD | annualised beta/SD |  NW t |    R2 |                 note |
+|---------|-----|---------|--------------------|--------------------|-------|-------|----------------------|
+| 1m      | 753 |       1 |              +0.12 |              +1.41 | +0.97 | 0.002 |                      |
+| 3m      | 751 |       4 |              +0.38 |              +1.54 | +1.06 | 0.005 |                      |
+| 6m      | 748 |       9 |              +0.74 |              +1.49 | +1.06 | 0.008 |                      |
+| 12m     | 742 |      18 |              +2.34 |              +2.34 | +1.91 | 0.034 | CP's fitting horizon |
+| 24m     | 730 |      36 |              +3.51 |              +1.75 | +2.16 | 0.037 |                      |
+Overlapping beyond h=1, so n overstates the effective sample; NW lags are 1.5h.
+
+------------------------------------------------------------------------------------------------
+Raw regression  r_HML(t+1:t+12) = a + b*CP(t) + e  [percent]
+------------------------------------------------------------------------------------------------
+  a (intercept)   : +2.335  (t +1.25)
+  b (slope on CP) : +1.724  (t +1.91)
+  R2              : 0.0343
+  n               : 742

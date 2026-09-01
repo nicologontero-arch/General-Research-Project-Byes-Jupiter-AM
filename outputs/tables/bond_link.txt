@@ -1,0 +1,42 @@
+================================================================================================
+Real-time CP against bond returns: level and shape
+out-of-sample R2 on the point forecast, and Cov(tanh(z_CP), 12m bond excess return)
+================================================================================================
+Evaluation sample: 602 months, 1975-04-30 -> 2025-05-31
+rx = realised average 12m excess return on 2-5y bonds, dated at the month the
+position is opened.
+
+------------------------------------------------------------------------------------------------
+1) Level and shape tests on one sample
+------------------------------------------------------------------------------------------------
+| test                  |                            what it measures |            statistic |
+|-----------------------|---------------------------------------------|----------------------|
+| R2_oos, full          |       level and scale of the point forecast |              -0.1037 |
+| R2_oos, 1990+         |                level and scale, 1990 onward |              -0.3532 |
+| Cov(tanh z, rx)       | standardised shape, the input to the weight | +0.3769 (NW t +1.67) |
+| slope of rx on tanh z |            the same null in regression form |  +1.402 (NW t +1.80) |
+
+------------------------------------------------------------------------------------------------
+2) Bond returns by CP bucket
+------------------------------------------------------------------------------------------------
+| CP bucket    | n months | next-12m bond excess return (%) | mean tanh(z) |
+|--------------|----------|---------------------------------|--------------|
+| deep low CP  |      141 |                          +0.321 |        -0.72 |
+| low CP       |      151 |                          +0.830 |        -0.25 |
+| high CP      |      187 |                          +0.482 |        +0.24 |
+| deep high CP |      123 |                          +2.949 |        +0.68 |
+Overlapping 12m windows, so n is not the effective sample size.
+  mean 12m bond excess return when CP above its own history : +1.461%
+  mean when CP below                                        : +0.584%
+  spread                                                    : +0.876%
+  unconditional mean                                        : +1.036%
+  share of months CP is above                               : 0.51
+
+------------------------------------------------------------------------------------------------
+3) Non-overlapping check, December only
+------------------------------------------------------------------------------------------------
+December only: one observation per year, 12m horizon
+  non-overlapping observations : 50
+  Cov(tanh z, rx)              : +0.3733  (NW t +1.31)
+  slope of rx on tanh z        : +1.253  (NW t +1.40)
+  R2                           : 0.034

@@ -1,0 +1,232 @@
+{
+ "name": "spread_checks",
+ "title": "S agreement: the same four checks",
+ "subtitle": "truncation, rolling stability, timing versus tilt, and spanning against both the yield curve and its own two ingredients",
+ "blocks": [
+  {
+   "type": "note",
+   "text": "w = 1 + c (1 + 0.75 d sign(c)),  c = tanh(z_CP),  d = 2(p - 0.5)"
+  },
+  {
+   "type": "note",
+   "text": "The multiplier 1 + 0.75 d sign(c) lies in [0.25, 1.75] and scales conviction only."
+  },
+  {
+   "type": "note",
+   "text": "Baseline: n=204, 1975-09-30 to 2026-06-30, alpha +2.34%/yr, IR 0.37, NW t 2.47"
+  },
+  {
+   "type": "h2",
+   "text": "1) Real-time truncation test"
+  },
+  {
+   "type": "note",
+   "text": "Rebuild CP, the spread percentile, the weight and the traded return using only data"
+  },
+  {
+   "type": "note",
+   "text": "available up to T. The spread is truncated as well as the yield curve."
+  },
+  {
+   "type": "table",
+   "title": null,
+   "headers": [
+    "truncated at T",
+    "quarters kept",
+    "overlap",
+    "max |d weight|",
+    "max |d active|",
+    "verdict"
+   ],
+   "rows": [
+    [
+     "2000-12-31",
+     "102",
+     "102",
+     "0.00e+00",
+     "0.00e+00",
+     "PASS"
+    ],
+    [
+     "2010-12-31",
+     "142",
+     "142",
+     "0.00e+00",
+     "0.00e+00",
+     "PASS"
+    ],
+    [
+     "2018-12-31",
+     "174",
+     "174",
+     "0.00e+00",
+     "0.00e+00",
+     "PASS"
+    ]
+   ],
+   "note": "Zero difference means no information dated after T influences any value before it."
+  },
+  {
+   "type": "h2",
+   "text": "2) Rolling stability"
+  },
+  {
+   "type": "note",
+   "text": "Cov(w,h) on a moving 20-quarter window, annualised percent, against CP-only."
+  },
+  {
+   "type": "table",
+   "title": null,
+   "headers": [
+    "design",
+    "windows",
+    "share positive",
+    "worst",
+    "best",
+    "median"
+   ],
+   "rows": [
+    [
+     "CP-only",
+     "185",
+     "69%",
+     "-3.80",
+     "+7.26",
+     "+1.35"
+    ],
+    [
+     "S agreement",
+     "185",
+     "78%",
+     "-2.90",
+     "+6.51",
+     "+2.25"
+    ]
+   ],
+   "note": "Windows overlap, so the share is descriptive and not a significance statement."
+  },
+  {
+   "type": "h2",
+   "text": "3) Timing versus tilt"
+  },
+  {
+   "type": "table",
+   "title": null,
+   "headers": [
+    "design",
+    "mean w",
+    "timing %/yr",
+    "t",
+    "tilt %/yr",
+    "t(w=1)",
+    "cost %/yr",
+    "total %/yr",
+    "timing share",
+    "|resid|"
+   ],
+   "rows": [
+    [
+     "CP-only",
+     "1.003",
+     "+1.89",
+     "+1.69",
+     "+0.01",
+     "+0.05",
+     "-0.12",
+     "+1.78",
+     "99%",
+     "3.5e-16"
+    ],
+    [
+     "S agreement",
+     "1.042",
+     "+2.32",
+     "+2.47",
+     "+0.15",
+     "+0.63",
+     "-0.12",
+     "+2.34",
+     "94%",
+     "3.5e-16"
+    ]
+   ],
+   "note": "All terms annualised percent. timing share = timing / (timing + tilt)."
+  },
+  {
+   "type": "h2",
+   "text": "4a) Spanning against the yield curve"
+  },
+  {
+   "type": "note",
+   "text": "Slope, level and curvature timed through identical machinery, then S agreement's"
+  },
+  {
+   "type": "note",
+   "text": "active return regressed on theirs."
+  },
+  {
+   "type": "kv",
+   "title": "Spanning regression against the yield curve",
+   "pairs": [
+    [
+     "S agreement active return, raw",
+     "+2.34 %/yr"
+    ],
+    [
+     "not explained by slope, level, curvature",
+     "+1.88 %/yr"
+    ],
+    [
+     "NW t on that intercept",
+     "+2.92"
+    ],
+    [
+     "R2 of S on the three controls",
+     "0.475"
+    ],
+    [
+     "n quarters",
+     "204"
+    ]
+   ]
+  },
+  {
+   "type": "h2",
+   "text": "4b) Spanning against its own two ingredients"
+  },
+  {
+   "type": "note",
+   "text": "S agreement's active return regressed on the active returns of its two inputs."
+  },
+  {
+   "type": "kv",
+   "title": "Spanning regression against CP-only and spread-only",
+   "pairs": [
+    [
+     "not explained by CP-only and spread-only",
+     "+0.30 %/yr"
+    ],
+    [
+     "NW t on that intercept",
+     "+0.88"
+    ],
+    [
+     "loading on CP-only",
+     "+0.893  (t +11.53)"
+    ],
+    [
+     "loading on spread-only",
+     "+0.331  (t +8.09)"
+    ],
+    [
+     "R2",
+     "0.885"
+    ],
+    [
+     "n quarters",
+     "204"
+    ]
+   ]
+  }
+ ]
+}

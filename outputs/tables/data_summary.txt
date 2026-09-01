@@ -1,0 +1,30 @@
+================================================================================================
+Input data coverage
+every series as its loader returns it, with the raw row count beside the count that survives filtering
+================================================================================================
+| series                |                               source file |    freq |        units |      first |       last |  rows |  used |
+|-----------------------|-------------------------------------------|---------|--------------|------------|------------|-------|-------|
+| GSW zero-coupon 1-5y  |                      gsw_yields_daily.csv |   daily | percent p.a. | 1961-06-14 | 2026-05-29 | 16948 | 16203 |
+| Fama-French 5 factors | F-F_Research_Data_5_Factors_2x3_daily.csv |   daily |      percent | 1963-07-01 | 2026-04-30 | 15813 | 15813 |
+| 6 size-B/M portfolios |                6_Portfolios_2x3_Daily.csv |   daily |      percent | 1926-07-01 | 2026-04-30 | 26233 | 26233 |
+| BE/ME characteristic  |            Portfolios_Formed_on_BE-ME.csv |  annual |    log ratio | 1927-06-30 | 2025-06-30 |    99 |    99 |
+| UK gilt curve 1-5y    |                        intl/yields_UK.csv |   daily | percent p.a. | 1979-01-02 | 2026-05-29 | 11966 | 11966 |
+| Canada curve 1-5y     |                        intl/yields_CA.csv |   daily | percent p.a. | 1986-01-02 | 2026-06-03 |  9923 |  9923 |
+| Japan JGB curve 1-5y  |                        intl/yields_JP.csv |   daily | percent p.a. | 1974-09-24 | 2026-05-29 | 12578 | 12578 |
+| Germany curve 1-5y    |                        intl/yields_DE.csv | monthly | percent p.a. | 1972-09-30 | 2026-05-31 |   645 |   645 |
+| UK value factor       |                   intl/hml_daily_intl.csv |   daily |      percent | 1988-07-01 | 2026-03-31 | 10892 |  9848 |
+| Canada value factor   |                   intl/hml_daily_intl.csv |   daily |      percent | 1984-07-02 | 2026-03-31 | 10892 | 10892 |
+| Japan value factor    |                   intl/hml_daily_intl.csv |   daily |      percent | 1988-07-01 | 2026-03-31 | 10892 |  9848 |
+| Germany value factor  |                   intl/hml_daily_intl.csv |   daily |      percent | 1990-07-02 | 2026-03-31 | 10892 |  9327 |
+'rows' counts what the file holds, 'used' what the loader returns. GSW carries
+blank rows on US market holidays; the four value factors share one wide file with
+NaNs preserved, so each market drops on its own date.
+
+------------------------------------------------------------------------------------------------
+Where each sample stops
+------------------------------------------------------------------------------------------------
+  GSW yields end            : 2026-05-29
+  US value factor ends      : 2026-04-30
+  foreign value factors end : 2026-03-31
+  BE/ME characteristic ends : 2025-06-30
+  US traded quarters        : 204 (1975-09-30 to 2026-06-30)

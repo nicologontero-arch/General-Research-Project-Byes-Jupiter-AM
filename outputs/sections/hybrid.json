@@ -1,0 +1,121 @@
+{
+ "name": "hybrid",
+ "title": "Hybrid CP-HML placebo",
+ "subtitle": "forwards fit directly to 12m-ahead HML instead of to bond returns, real-time",
+ "blocks": [
+  {
+   "type": "h2",
+   "text": "Diagnostic: full-sample regression of 12m target on 5 forwards"
+  },
+  {
+   "type": "table",
+   "title": null,
+   "headers": [
+    "target",
+    "R2",
+    "f1",
+    "f2",
+    "f3",
+    "f4",
+    "f5"
+   ],
+   "rows": [
+    [
+     "bonds (standard CP)",
+     "0.153",
+     "-2.46",
+     "+7.11",
+     "-11.36",
+     "+8.13",
+     "-1.18"
+    ],
+    [
+     "HML (hybrid)",
+     "0.053",
+     "-1.53",
+     "-3.86",
+     "+17.13",
+     "-18.74",
+     "+7.80"
+    ]
+   ],
+   "note": null
+  },
+  {
+   "type": "kv",
+   "title": null,
+   "pairs": [
+    [
+     "corr(CP signal, hybrid signal), quarterly",
+     "0.34"
+    ]
+   ]
+  },
+  {
+   "type": "h2",
+   "text": "HML timing: standard CP vs hybrid CP-HML (net 10bps, 1975+)"
+  },
+  {
+   "type": "table",
+   "title": "Quarterly",
+   "headers": [
+    "design",
+    "n",
+    "alpha%/yr",
+    "IR",
+    "NW t",
+    "meanW"
+   ],
+   "rows": [
+    [
+     "standard CP",
+     "204",
+     "+1.78",
+     "+0.26",
+     "+1.55",
+     "1.00"
+    ],
+    [
+     "hybrid CP-HML",
+     "196",
+     "-1.71",
+     "-0.20",
+     "-1.16",
+     "0.63"
+    ]
+   ],
+   "note": null
+  },
+  {
+   "type": "table",
+   "title": "Annual",
+   "headers": [
+    "design",
+    "n",
+    "alpha%/yr",
+    "IR",
+    "NW t",
+    "meanW"
+   ],
+   "rows": [
+    [
+     "standard CP",
+     "51",
+     "+1.91",
+     "+0.26",
+     "+2.32",
+     "1.03"
+    ],
+    [
+     "hybrid CP-HML",
+     "49",
+     "-2.35",
+     "-0.23",
+     "-1.81",
+     "0.66"
+    ]
+   ],
+   "note": null
+  }
+ ]
+}

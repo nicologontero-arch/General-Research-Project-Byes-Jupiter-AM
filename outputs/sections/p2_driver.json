@@ -1,0 +1,309 @@
+{
+ "name": "p2_driver",
+ "title": "Problem 2 - CP x value-spread",
+ "subtitle": "alignment diagnostic, seven weighting schemes, mechanism, bootstrap on the best design",
+ "blocks": [
+  {
+   "type": "note",
+   "text": "Common quarterly sample: 206 obs 1975-03-31..2026-06-30"
+  },
+  {
+   "type": "h2",
+   "text": "1) Alignment diagnostic (CP vs spread)"
+  },
+  {
+   "type": "kv",
+   "title": null,
+   "pairs": [
+    [
+     "corr(CP signal c, spread pctile p)",
+     "-0.018"
+    ],
+    [
+     "sign-agreement overall",
+     "0.52"
+    ],
+    [
+     "sign-agreement in tails",
+     "0.50"
+    ]
+   ]
+  },
+  {
+   "type": "table",
+   "title": "Mean CP signal by spread tercile",
+   "headers": [
+    "spread tercile",
+    "mean CP signal"
+   ],
+   "rows": [
+    [
+     "narrow",
+     "-0.040"
+    ],
+    [
+     "mid",
+     "+0.142"
+    ],
+    [
+     "wide",
+     "-0.086"
+    ]
+   ],
+   "note": null
+  },
+  {
+   "type": "h2",
+   "text": "2) Strategy comparison (quarterly, 1975+, net 10bps)"
+  },
+  {
+   "type": "table",
+   "title": null,
+   "headers": [
+    "scheme",
+    "n",
+    "alpha",
+    "IR",
+    "NWt",
+    "meanW",
+    "turn",
+    "corr(a,v)"
+   ],
+   "rows": [
+    [
+     "CP-only",
+     "204",
+     "+1.78",
+     "0.26",
+     "1.55",
+     "1.003",
+     "1.22",
+     "-0.21"
+    ],
+    [
+     "Spread-only",
+     "204",
+     "+1.38",
+     "0.14",
+     "0.83",
+     "1.188",
+     "0.34",
+     "+0.63"
+    ],
+    [
+     "Additive",
+     "204",
+     "+1.59",
+     "0.31",
+     "2.06",
+     "1.095",
+     "0.68",
+     "+0.48"
+    ],
+    [
+     "Gated",
+     "204",
+     "+1.07",
+     "0.18",
+     "1.10",
+     "0.998",
+     "0.67",
+     "-0.27"
+    ],
+    [
+     "A monotonic",
+     "204",
+     "+1.92",
+     "0.19",
+     "1.12",
+     "0.997",
+     "1.41",
+     "-0.28"
+    ],
+    [
+     "B U-shaped",
+     "204",
+     "+2.33",
+     "0.23",
+     "1.36",
+     "0.956",
+     "1.49",
+     "-0.31"
+    ],
+    [
+     "S agreement",
+     "204",
+     "+2.34",
+     "0.37",
+     "2.47",
+     "1.042",
+     "1.23",
+     "+0.11"
+    ]
+   ],
+   "note": null
+  },
+  {
+   "type": "h2",
+   "text": "3) Mechanism: next-qtr value return by CP direction x spread tail (ann.%)"
+  },
+  {
+   "type": "table",
+   "title": null,
+   "headers": [
+    "CP direction",
+    "spread tail",
+    "next-qtr value (ann.%)",
+    "n"
+   ],
+   "rows": [
+    [
+     "CP overweight",
+     "narrow",
+     "+5.45",
+     "30"
+    ],
+    [
+     "CP overweight",
+     "mid",
+     "+4.21",
+     "31"
+    ],
+    [
+     "CP overweight",
+     "wide",
+     "+7.67",
+     "51"
+    ],
+    [
+     "CP underweight",
+     "narrow",
+     "-2.66",
+     "27"
+    ],
+    [
+     "CP underweight",
+     "mid",
+     "+3.96",
+     "16"
+    ],
+    [
+     "CP underweight",
+     "wide",
+     "+1.18",
+     "51"
+    ]
+   ],
+   "note": null
+  },
+  {
+   "type": "table",
+   "title": "Incremental active alpha vs CP-only, by CP/spread agreement",
+   "headers": [
+    "scheme",
+    "agree (ann.%)",
+    "conflict (ann.%)"
+   ],
+   "rows": [
+    [
+     "A monotonic",
+     "+0.29",
+     "-0.03"
+    ],
+    [
+     "B U-shaped",
+     "+0.79",
+     "+0.29"
+    ],
+    [
+     "S agreement",
+     "+1.32",
+     "-0.24"
+    ]
+   ],
+   "note": null
+  },
+  {
+   "type": "h2",
+   "text": "3b) Return against risk"
+  },
+  {
+   "type": "table",
+   "title": "Return and risk, quarterly, 1975+, net 10bps",
+   "headers": [
+    "design",
+    "alpha %/yr",
+    "active vol %/yr",
+    "IR",
+    "traded vol %/yr",
+    "traded SR",
+    "max drawdown %"
+   ],
+   "rows": [
+    [
+     "CP-only",
+     "+1.78",
+     "6.80",
+     "0.26",
+     "12.98",
+     "0.41",
+     "-53.7"
+    ],
+    [
+     "Spread-only",
+     "+1.38",
+     "10.13",
+     "0.14",
+     "20.53",
+     "0.24",
+     "-78.1"
+    ],
+    [
+     "S agreement",
+     "+2.34",
+     "6.26",
+     "0.37",
+     "14.68",
+     "0.40",
+     "-61.0"
+    ],
+    [
+     "Static value (benchmark)",
+     "0.00",
+     "0.00",
+     "n/a",
+     "12.60",
+     "0.28",
+     "-56.0"
+    ]
+   ],
+   "note": null
+  },
+  {
+   "type": "h2",
+   "text": "4) Bootstrap on best-IR multiplicative design"
+  },
+  {
+   "type": "kv",
+   "title": null,
+   "pairs": [
+    [
+     "best-IR multiplicative design",
+     "S agreement"
+    ],
+    [
+     "alpha 95% CI",
+     "[+0.47, +4.03] %/yr"
+    ],
+    [
+     "P(alpha <= 0)",
+     "0.006"
+    ],
+    [
+     "CP-only IR vs best IR",
+     "0.26 vs 0.37"
+    ]
+   ]
+  }
+ ]
+}

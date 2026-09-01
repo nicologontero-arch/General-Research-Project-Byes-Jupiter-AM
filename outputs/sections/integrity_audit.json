@@ -1,0 +1,373 @@
+{
+ "name": "integrity_audit",
+ "title": "Upstream integrity audit",
+ "subtitle": "signal distribution, alpha decomposition, real-time truncation test, placebos, OOS bond R2",
+ "blocks": [
+  {
+   "type": "note",
+   "text": "Baseline quarterly strategy: n=204 1975-09-30..2026-06-30, alpha=+1.78%/yr, IR=0.26, NW t=1.55"
+  },
+  {
+   "type": "h2",
+   "text": "A) Signal distribution"
+  },
+  {
+   "type": "kv",
+   "title": null,
+   "pairs": [
+    [
+     "mean / SD of z",
+     "-0.024 / 0.717"
+    ],
+    [
+     "mean / SD of weight",
+     "1.003 / 0.504"
+    ],
+    [
+     "weight min .. max",
+     "0.001 .. 1.931"
+    ],
+    [
+     "share of quarters |z| > 1",
+     "0.11"
+    ],
+    [
+     "share of quarters |w-1| > 0.5",
+     "0.41"
+    ],
+    [
+     "weight AR(1)",
+     "+0.638"
+    ]
+   ]
+  },
+  {
+   "type": "table",
+   "title": "Weight distribution",
+   "headers": [
+    "quantile",
+    "0%",
+    "10%",
+    "25%",
+    "50%",
+    "75%",
+    "90%",
+    "100%"
+   ],
+   "rows": [
+    [
+     "weight",
+     "0.00",
+     "0.32",
+     "0.59",
+     "1.03",
+     "1.41",
+     "1.69",
+     "1.93"
+    ]
+   ],
+   "note": "Weight is 1 + tanh(z), so it is bounded in [0, 2] by construction."
+  },
+  {
+   "type": "h2",
+   "text": "B) Alpha decomposition"
+  },
+  {
+   "type": "table",
+   "title": "Alpha decomposition (quarterly, 1975+)",
+   "headers": [
+    "component",
+    "ann. %",
+    "share of gross"
+   ],
+   "rows": [
+    [
+     "timing  Cov(w, r)",
+     "+1.893",
+     " 99.4%"
+    ],
+    [
+     "tilt    (E[w]-1) E[r]",
+     "+0.010",
+     "  0.6%"
+    ],
+    [
+     "cost    -c E[turnover]",
+     "-0.122",
+     ""
+    ],
+    [
+     "total",
+     "+1.782",
+     ""
+    ]
+   ],
+   "note": null
+  },
+  {
+   "type": "kv",
+   "title": null,
+   "pairs": [
+    [
+     "reported alpha",
+     "+1.7818 %/yr"
+    ],
+    [
+     "decomposition total",
+     "+1.7818 %/yr"
+    ],
+    [
+     "identity holds (< 1e-8)",
+     "True"
+    ],
+    [
+     "mean weight",
+     "1.0029"
+    ],
+    [
+     "=> tilt contribution",
+     "+0.010 %/yr of +1.78 (0.6%)"
+    ]
+   ]
+  },
+  {
+   "type": "h2",
+   "text": "C) Real-time truncation test"
+  },
+  {
+   "type": "note",
+   "text": "Rebuild the chain using only data available up to T, then compare every value\ndated before T against the full-sample run."
+  },
+  {
+   "type": "table",
+   "title": null,
+   "headers": [
+    "truncated at T",
+    "CP obs",
+    "max |dCP|",
+    "max |dz|",
+    "max |d active|",
+    "verdict"
+   ],
+   "rows": [
+    [
+     "2000-12-31",
+     "344",
+     "0.00e+00",
+     "0.00e+00",
+     "0.00e+00",
+     "PASS"
+    ],
+    [
+     "2010-12-31",
+     "464",
+     "0.00e+00",
+     "0.00e+00",
+     "0.00e+00",
+     "PASS"
+    ],
+    [
+     "2018-12-31",
+     "560",
+     "0.00e+00",
+     "0.00e+00",
+     "0.00e+00",
+     "PASS"
+    ]
+   ],
+   "note": "Zero difference => no information from after T influences any value dated before T."
+  },
+  {
+   "type": "kv",
+   "title": "Estimation-window structure",
+   "pairs": [
+    [
+     "estimation dates checked",
+     "649"
+    ],
+    [
+     "smallest gap between last training obs and CP date",
+     "12 months"
+    ],
+    [
+     "required (12m return must be realized)",
+     ">= 12 months"
+    ],
+    [
+     "assertion max(elig) <= t-12",
+     "PASS"
+    ],
+    [
+     "last 12 realized returns are NaN (unobservable)",
+     "12/12"
+    ]
+   ]
+  },
+  {
+   "type": "h2",
+   "text": "D) Placebo and lag-decay tests"
+  },
+  {
+   "type": "table",
+   "title": "Alpha against the weight lag k",
+   "headers": [
+    "weight lag",
+    "n",
+    "alpha%/yr",
+    "IR",
+    "NW t"
+   ],
+   "rows": [
+    [
+     "k=0 CONTEMPORANEOUS (cheating)",
+     "205",
+     "+1.44",
+     "+0.20",
+     "+1.12"
+    ],
+    [
+     "k=1 baseline (honest)",
+     "204",
+     "+1.78",
+     "+0.26",
+     "+1.55"
+    ],
+    [
+     "k=2 extra lag",
+     "203",
+     "-0.09",
+     "-0.01",
+     "-0.08"
+    ],
+    [
+     "k=3",
+     "202",
+     "+0.42",
+     "+0.07",
+     "+0.45"
+    ],
+    [
+     "k=4 (= 1 year)",
+     "201",
+     "+1.83",
+     "+0.29",
+     "+2.00"
+    ]
+   ],
+   "note": "Baseline standard error is ~0.95%/yr. k=1 is the traded convention."
+  },
+  {
+   "type": "table",
+   "title": "Randomisation placebos (2000 draws, gross of cost)",
+   "headers": [
+    "placebo",
+    "mean alpha",
+    "95% range",
+    "observed",
+    "pctile of observed"
+   ],
+   "rows": [
+    [
+     "weight permuted in time",
+     "+0.02",
+     "[-1.73, +1.82]",
+     "+1.78",
+     "97.3%"
+    ],
+    [
+     "weight deviation sign-randomised",
+     "+0.02",
+     "[-1.85, +1.93]",
+     "+1.78",
+     "96.8%"
+    ]
+   ],
+   "note": "2000 draws, gross of cost. Each placebo breaks the weight-return pairing."
+  },
+  {
+   "type": "h2",
+   "text": "E) Out-of-sample bond R2"
+  },
+  {
+   "type": "note",
+   "text": "Campbell-Thompson OOS R2 against an expanding historical-mean forecast, using at\neach date only returns already realised."
+  },
+  {
+   "type": "kv",
+   "title": null,
+   "pairs": [
+    [
+     "evaluation months",
+     "637"
+    ],
+    [
+     "span",
+     "1972-05-31 .. 2025-05-31"
+    ],
+    [
+     "OOS R2, full evaluation sample",
+     "-0.1037"
+    ],
+    [
+     "OOS R2, 1990+",
+     "-0.3532"
+    ],
+    [
+     "in-sample full-sample R2, for reference",
+     "0.153"
+    ]
+   ]
+  },
+  {
+   "type": "h2",
+   "text": "F) Burn-in stability: alpha by first traded quarter"
+  },
+  {
+   "type": "table",
+   "title": null,
+   "headers": [
+    "sample",
+    "n",
+    "alpha%/yr",
+    "IR",
+    "NW t",
+    "meanW"
+   ],
+   "rows": [
+    [
+     "1975+ baseline",
+     "204",
+     "+1.78",
+     "+0.26",
+     "+1.55",
+     "1.003"
+    ],
+    [
+     "1980+ (drop first 5y)",
+     "186",
+     "+1.46",
+     "+0.21",
+     "+1.19",
+     "0.989"
+    ],
+    [
+     "1985+ (drop first 10y)",
+     "166",
+     "+1.32",
+     "+0.20",
+     "+1.07",
+     "0.970"
+    ],
+    [
+     "1990+ (drop first 15y)",
+     "146",
+     "+1.23",
+     "+0.18",
+     "+0.88",
+     "0.975"
+    ]
+   ],
+   "note": null
+  }
+ ]
+}

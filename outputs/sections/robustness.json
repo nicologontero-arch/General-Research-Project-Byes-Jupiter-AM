@@ -1,0 +1,392 @@
+{
+ "name": "robustness",
+ "title": "Robustness checks",
+ "subtitle": "yield-curve controls, multiple-testing adjustment, stub-period fix, cost sensitivity",
+ "blocks": [
+  {
+   "type": "h2",
+   "text": "1) Competing term-structure signals"
+  },
+  {
+   "type": "note",
+   "text": "Each signal runs through identical machinery: expanding z, 1+tanh(z), lag, net 10bps."
+  },
+  {
+   "type": "table",
+   "title": "Each term-structure signal used as the timing signal",
+   "headers": [
+    "timing signal",
+    "n",
+    "alpha%/yr",
+    "IR",
+    "NW t",
+    "meanW",
+    "turn/yr"
+   ],
+   "rows": [
+    [
+     "CP (baseline)",
+     "204",
+     "+1.78",
+     "+0.26",
+     "+1.55",
+     "1.003",
+     "1.22"
+    ],
+    [
+     "Slope  y5 - y1",
+     "206",
+     "+1.30",
+     "+0.15",
+     "+0.96",
+     "1.113",
+     "0.80"
+    ],
+    [
+     "Level  y1",
+     "206",
+     "+0.09",
+     "+0.01",
+     "+0.07",
+     "0.724",
+     "0.35"
+    ],
+    [
+     "Curvature 2y2-y1-y5",
+     "206",
+     "-1.19",
+     "-0.15",
+     "-1.24",
+     "0.767",
+     "1.16"
+    ]
+   ],
+   "note": null
+  },
+  {
+   "type": "kv",
+   "title": "Spanning regression: CP active return on slope/level/curvature active returns",
+   "pairs": [
+    [
+     "CP-timed alpha not explained by slope/level/curvature timing",
+     "+1.14 %/yr"
+    ],
+    [
+     "NW t on that intercept",
+     "+2.03"
+    ],
+    [
+     "R2 of CP active on the three controls",
+     "0.613"
+    ],
+    [
+     "raw CP-timed alpha, for comparison",
+     "+1.78 %/yr"
+    ]
+   ]
+  },
+  {
+   "type": "note",
+   "text": ""
+  },
+  {
+   "type": "table",
+   "title": "Predictive regression: 12m-ahead HML on standardized signals (NW 18 lags)",
+   "headers": [
+    "specification",
+    "b(CP)/SD",
+    "t(CP)",
+    "b(slope)",
+    "b(level)",
+    "R2",
+    "n"
+   ],
+   "rows": [
+    [
+     "CP alone",
+     "+2.12",
+     "+1.74",
+     "",
+     "",
+     "0.025",
+     "636"
+    ],
+    [
+     "slope alone",
+     "",
+     "",
+     "+1.47",
+     "",
+     "0.014",
+     "636"
+    ],
+    [
+     "level alone",
+     "",
+     "",
+     "",
+     "+1.90",
+     "0.023",
+     "636"
+    ],
+    [
+     "CP + slope + level",
+     "+1.42",
+     "+1.28",
+     "+1.88",
+     "+2.84",
+     "0.069",
+     "636"
+    ]
+   ],
+   "note": null
+  },
+  {
+   "type": "note",
+   "text": "Two spanning tests are reported: the strategy form above (CP active return on the\nthree control active returns) and the predictive form here (12m-ahead HML on the\nstandardised signals). The strategy uses tanh(z), a nonlinear function of the curve."
+  },
+  {
+   "type": "h2",
+   "text": "2) Multiple testing across the seven CP x spread designs"
+  },
+  {
+   "type": "note",
+   "text": "Selecting the best of 7 designs makes a naive p conditional on that selection. The\nReality Check bootstraps the maximum statistic across all 7 under the null of no skill."
+  },
+  {
+   "type": "table",
+   "title": "All seven designs (n=204 quarters)",
+   "headers": [
+    "design",
+    "alpha%/yr",
+    "t (iid)",
+    "naive p",
+    ""
+   ],
+   "rows": [
+    [
+     "CP-only",
+     "+1.78",
+     "+1.87",
+     "0.042",
+     ""
+    ],
+    [
+     "Spread-only",
+     "+1.38",
+     "+0.97",
+     "0.178",
+     ""
+    ],
+    [
+     "Additive",
+     "+1.59",
+     "+2.23",
+     "0.013",
+     ""
+    ],
+    [
+     "Gated",
+     "+1.07",
+     "+1.32",
+     "0.100",
+     ""
+    ],
+    [
+     "A monotonic",
+     "+1.92",
+     "+1.37",
+     "0.105",
+     ""
+    ],
+    [
+     "B U-shaped",
+     "+2.33",
+     "+1.66",
+     "0.064",
+     ""
+    ],
+    [
+     "S agreement",
+     "+2.34",
+     "+2.67",
+     "0.004",
+     "<- selected"
+    ]
+   ],
+   "note": "t (iid) is the plain mean/SE used to rank designs. 'naive p' is the one-sided\nbootstrap p for each design on its own, ignoring that six others were tried."
+  },
+  {
+   "type": "kv",
+   "title": "White Reality Check, 5000 block bootstraps (block length 4)",
+   "pairs": [
+    [
+     "best design by t-stat",
+     "S agreement"
+    ],
+    [
+     "its naive one-sided p",
+     "0.004"
+    ],
+    [
+     "Reality Check p, adjusted for searching 7 designs",
+     "0.042"
+    ]
+   ]
+  },
+  {
+   "type": "h2",
+   "text": "3) Trailing partial-period ('stub') contamination"
+  },
+  {
+   "type": "note",
+   "text": "Daily HML ends 2026-04-30. resample() labels each period with its END date, so\nthe final quarterly bucket is stamped 2026-06-30 while holding only April, and the\nfinal annual bucket is stamped 2026-12-31 while holding only Jan-Apr. The annual row\ncarries the project's largest t-stat, so this needs checking rather than assuming."
+  },
+  {
+   "type": "table",
+   "title": "Headline frequency table, before and after dropping the trailing stub period",
+   "headers": [
+    "frequency / treatment",
+    "n",
+    "end",
+    "alpha%/yr",
+    "IR",
+    "NW t"
+   ],
+   "rows": [
+    [
+     "Monthly - as published",
+     "611",
+     "2026-04-30",
+     "+1.36",
+     "+0.23",
+     "+1.22"
+    ],
+    [
+     "Monthly - complete periods only",
+     "611",
+     "2026-04-30",
+     "+1.36",
+     "+0.23",
+     "+1.22"
+    ],
+    [
+     "Quarterly - as published",
+     "204",
+     "2026-06-30",
+     "+1.78",
+     "+0.26",
+     "+1.55"
+    ],
+    [
+     "Quarterly - complete periods only",
+     "203",
+     "2026-03-31",
+     "+1.79",
+     "+0.26",
+     "+1.56"
+    ],
+    [
+     "Annual - as published",
+     "51",
+     "2026-12-31",
+     "+1.91",
+     "+0.26",
+     "+2.32"
+    ],
+    [
+     "Annual - complete periods only",
+     "50",
+     "2025-12-31",
+     "+1.90",
+     "+0.25",
+     "+2.26"
+    ]
+   ],
+   "note": null
+  },
+  {
+   "type": "h2",
+   "text": "4) Transaction-cost sensitivity"
+  },
+  {
+   "type": "note",
+   "text": "Headline results assume 10bps per unit of turnover; quarterly turnover is ~1.2x/yr."
+  },
+  {
+   "type": "table",
+   "title": "Alpha and IR versus the cost assumption (quarterly, 1975+)",
+   "headers": [
+    "cost per unit turnover",
+    "CP alpha",
+    "CP IR",
+    "CP t",
+    "S alpha",
+    "S IR",
+    "S t"
+   ],
+   "rows": [
+    [
+     "0 bps",
+     "+1.90",
+     "+0.28",
+     "+1.66",
+     "+2.47",
+     "+0.39",
+     "+2.59"
+    ],
+    [
+     "10 bps",
+     "+1.78",
+     "+0.26",
+     "+1.55",
+     "+2.34",
+     "+0.37",
+     "+2.47"
+    ],
+    [
+     "25 bps",
+     "+1.60",
+     "+0.24",
+     "+1.40",
+     "+2.16",
+     "+0.35",
+     "+2.28"
+    ],
+    [
+     "50 bps",
+     "+1.29",
+     "+0.19",
+     "+1.13",
+     "+1.85",
+     "+0.30",
+     "+1.97"
+    ],
+    [
+     "100 bps",
+     "+0.68",
+     "+0.10",
+     "+0.60",
+     "+1.24",
+     "+0.20",
+     "+1.33"
+    ]
+   ],
+   "note": null
+  },
+  {
+   "type": "kv",
+   "title": "Cost at which the alpha is fully eaten",
+   "pairs": [
+    [
+     "CP-only break-even cost",
+     "156 bps per unit turnover"
+    ],
+    [
+     "S agreement break-even cost",
+     "201 bps per unit turnover"
+    ]
+   ]
+  }
+ ]
+}

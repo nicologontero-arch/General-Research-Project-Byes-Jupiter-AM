@@ -1,0 +1,613 @@
+{
+ "name": "decomposition",
+ "title": "Timing vs tilt decomposition, with t-stats",
+ "subtitle": "E[active] = Cov(w,h) + (E[w]-1)E[h] - costs; the exact split behind both alpha definitions",
+ "blocks": [
+  {
+   "type": "note",
+   "text": "timing = Cov(w,h). tilt = (E[w]-1)E[h]. total = the benchmark-difference alpha."
+  },
+  {
+   "type": "note",
+   "text": "|resid| is total minus the three terms, and is zero to machine precision."
+  },
+  {
+   "type": "h2",
+   "text": "1) CP-only overlay  w = 1 + tanh(z_CP),  by frequency (1975+, net 10bps)"
+  },
+  {
+   "type": "table",
+   "title": null,
+   "headers": [
+    "label",
+    "n",
+    "meanW",
+    "TIMING %/yr",
+    "t",
+    "t(slope)",
+    "tilt %/yr",
+    "t(W=1)",
+    "cost %/yr",
+    "total %/yr",
+    "t",
+    "|resid|"
+   ],
+   "rows": [
+    [
+     "Monthly",
+     "611",
+     "0.980",
+     "+1.65",
+     "+1.55",
+     "+1.57",
+     "-0.07",
+     "-0.36",
+     "-0.22",
+     "+1.36",
+     "+1.22",
+     "5.2e-16"
+    ],
+    [
+     "Quarterly",
+     "204",
+     "1.003",
+     "+1.89",
+     "+1.69",
+     "+1.72",
+     "+0.01",
+     "+0.05",
+     "-0.12",
+     "+1.78",
+     "+1.55",
+     "3.5e-16"
+    ],
+    [
+     "Annual",
+     "51",
+     "1.028",
+     "+1.86",
+     "+2.22",
+     "+2.11",
+     "+0.10",
+     "+0.33",
+     "-0.05",
+     "+1.91",
+     "+2.32",
+     "0.0e+00"
+    ]
+   ],
+   "note": "All terms annualised percent. HAC lags 12 monthly, 4 quarterly, 2 annual."
+  },
+  {
+   "type": "h2",
+   "text": "1b) Block bootstrap on the timing term (quarterly)"
+  },
+  {
+   "type": "note",
+   "text": "Resamples 4-quarter blocks and recomputes Cov(w,h) on each draw."
+  },
+  {
+   "type": "kv",
+   "title": "5,000 block bootstraps, block length 4 quarters",
+   "pairs": [
+    [
+     "timing term (point estimate)",
+     "+1.89 %/yr"
+    ],
+    [
+     "HAC t",
+     "+1.69"
+    ],
+    [
+     "block-bootstrap 95% CI",
+     "[-0.48, +3.87] %/yr"
+    ],
+    [
+     "P(timing <= 0)",
+     "0.056"
+    ]
+   ]
+  },
+  {
+   "type": "kv",
+   "title": "The same, annual holding period, block length 2 years",
+   "pairs": [
+    [
+     "timing term (point estimate)",
+     "+1.86 %/yr"
+    ],
+    [
+     "HAC t",
+     "+2.22"
+    ],
+    [
+     "block-bootstrap 95% CI",
+     "[-0.10, +3.55] %/yr"
+    ],
+    [
+     "P(timing <= 0)",
+     "0.031"
+    ]
+   ]
+  },
+  {
+   "type": "h2",
+   "text": "2) CP-only overlay, quarterly sub-periods"
+  },
+  {
+   "type": "table",
+   "title": null,
+   "headers": [
+    "label",
+    "n",
+    "meanW",
+    "TIMING %/yr",
+    "t",
+    "t(slope)",
+    "tilt %/yr",
+    "t(W=1)",
+    "cost %/yr",
+    "total %/yr",
+    "t",
+    "|resid|"
+   ],
+   "rows": [
+    [
+     "1975-1989",
+     "58",
+     "1.074",
+     "+2.82",
+     "+1.70",
+     "+1.95",
+     "+0.50",
+     "+0.56",
+     "-0.14",
+     "+3.18",
+     "+1.62",
+     "6.9e-16"
+    ],
+    [
+     "1990-2004",
+     "60",
+     "0.946",
+     "+0.41",
+     "+0.16",
+     "+0.15",
+     "-0.32",
+     "-0.62",
+     "-0.17",
+     "-0.07",
+     "-0.03",
+     "2.2e-16"
+    ],
+    [
+     "2005-2019",
+     "60",
+     "1.049",
+     "+0.59",
+     "+0.50",
+     "+0.52",
+     "-0.05",
+     "+0.46",
+     "-0.08",
+     "+0.47",
+     "+0.39",
+     "0.0e+00"
+    ],
+    [
+     "2020-2026",
+     "26",
+     "0.869",
+     "+6.33",
+     "+3.75",
+     "+4.43",
+     "-0.26",
+     "-0.95",
+     "-0.09",
+     "+5.98",
+     "+2.99",
+     "0.0e+00"
+    ]
+   ],
+   "note": "The four blocks partition the sample."
+  },
+  {
+   "type": "h2",
+   "text": "2b) 1990-2004 split at the dot-com peak"
+  },
+  {
+   "type": "table",
+   "title": null,
+   "headers": [
+    "label",
+    "n",
+    "meanW",
+    "TIMING %/yr",
+    "t",
+    "t(slope)",
+    "tilt %/yr",
+    "t(W=1)",
+    "cost %/yr",
+    "total %/yr",
+    "t",
+    "|resid|"
+   ],
+   "rows": [
+    [
+     "1990-1999",
+     "40",
+     "0.988",
+     "+2.23",
+     "+1.54",
+     "+1.50",
+     "-0.01",
+     "-0.12",
+     "-0.16",
+     "+2.06",
+     "+1.46",
+     "0.0e+00"
+    ],
+    [
+     "2000-2004",
+     "20",
+     "0.861",
+     "-1.91",
+     "-0.37",
+     "-0.36",
+     "-2.26",
+     "-0.90",
+     "-0.18",
+     "-4.34",
+     "-0.56",
+     "0.0e+00"
+    ]
+   ],
+   "note": null
+  },
+  {
+   "type": "kv",
+   "title": "Timed wealth divided by static wealth, quarterly compounding",
+   "pairs": [
+    [
+     "timed / static wealth at end-1989",
+     "1.51"
+    ],
+    [
+     "  at end-1999",
+     "1.84"
+    ],
+    [
+     "  at end-2001 (the trough of the episode)",
+     "1.32"
+    ],
+    [
+     "  at end-2004",
+     "1.54"
+    ],
+    [
+     "minimum of the ratio over the whole sample",
+     "1.010"
+    ],
+    [
+     "  ever below 1 (i.e. ever behind the benchmark)?",
+     "False"
+    ],
+    [
+     "worst quarter",
+     "2000-12-31"
+    ],
+    [
+     "  its active return",
+     "-24.0%"
+    ],
+    [
+     "  weight held into it",
+     "0.15"
+    ],
+    [
+     "  HML that quarter",
+     "+28.1%"
+    ]
+   ]
+  },
+  {
+   "type": "h2",
+   "text": "3) The seven CP x spread designs, quarterly"
+  },
+  {
+   "type": "table",
+   "title": null,
+   "headers": [
+    "label",
+    "n",
+    "meanW",
+    "TIMING %/yr",
+    "t",
+    "t(slope)",
+    "tilt %/yr",
+    "t(W=1)",
+    "cost %/yr",
+    "total %/yr",
+    "t",
+    "|resid|"
+   ],
+   "rows": [
+    [
+     "CP-only",
+     "204",
+     "1.003",
+     "+1.89",
+     "+1.69",
+     "+1.72",
+     "+0.01",
+     "+0.05",
+     "-0.12",
+     "+1.78",
+     "+1.55",
+     "3.5e-16"
+    ],
+    [
+     "Spread-only",
+     "204",
+     "1.188",
+     "+0.74",
+     "+0.53",
+     "+0.54",
+     "+0.67",
+     "+1.91",
+     "-0.03",
+     "+1.38",
+     "+0.83",
+     "0.0e+00"
+    ],
+    [
+     "Additive",
+     "204",
+     "1.095",
+     "+1.32",
+     "+1.92",
+     "+2.15",
+     "+0.34",
+     "+1.72",
+     "-0.07",
+     "+1.59",
+     "+2.06",
+     "3.5e-16"
+    ],
+    [
+     "Gated",
+     "204",
+     "0.998",
+     "+1.15",
+     "+1.20",
+     "+1.20",
+     "-0.01",
+     "-0.06",
+     "-0.07",
+     "+1.07",
+     "+1.10",
+     "3.5e-16"
+    ],
+    [
+     "A monotonic",
+     "204",
+     "0.997",
+     "+2.07",
+     "+1.24",
+     "+1.22",
+     "-0.01",
+     "-0.04",
+     "-0.14",
+     "+1.92",
+     "+1.12",
+     "0.0e+00"
+    ],
+    [
+     "B U-shaped",
+     "204",
+     "0.956",
+     "+2.64",
+     "+1.62",
+     "+1.61",
+     "-0.16",
+     "-0.60",
+     "-0.15",
+     "+2.33",
+     "+1.36",
+     "3.5e-16"
+    ],
+    [
+     "S agreement",
+     "204",
+     "1.042",
+     "+2.32",
+     "+2.47",
+     "+2.80",
+     "+0.15",
+     "+0.63",
+     "-0.12",
+     "+2.34",
+     "+2.47",
+     "3.5e-16"
+    ]
+   ],
+   "note": "The timing share of each design's gross alpha is in the next table."
+  },
+  {
+   "type": "table",
+   "title": "Timing and tilt by design",
+   "headers": [
+    "design",
+    "meanW",
+    "timing %/yr",
+    "tilt %/yr",
+    "timing share of gross"
+   ],
+   "rows": [
+    [
+     "CP-only",
+     "1.003",
+     "+1.89",
+     "+0.01",
+     "   99%"
+    ],
+    [
+     "Spread-only",
+     "1.188",
+     "+0.74",
+     "+0.67",
+     "   53%"
+    ],
+    [
+     "Additive",
+     "1.095",
+     "+1.32",
+     "+0.34",
+     "   79%"
+    ],
+    [
+     "Gated",
+     "0.998",
+     "+1.15",
+     "-0.01",
+     "  101%"
+    ],
+    [
+     "A monotonic",
+     "0.997",
+     "+2.07",
+     "-0.01",
+     "  100%"
+    ],
+    [
+     "B U-shaped",
+     "0.956",
+     "+2.64",
+     "-0.16",
+     "  106%"
+    ],
+    [
+     "S agreement",
+     "1.042",
+     "+2.32",
+     "+0.15",
+     "   94%"
+    ]
+   ],
+   "note": null
+  },
+  {
+   "type": "h2",
+   "text": "3b) S agreement, quarterly sub-periods"
+  },
+  {
+   "type": "table",
+   "title": null,
+   "headers": [
+    "label",
+    "n",
+    "meanW",
+    "TIMING %/yr",
+    "t",
+    "t(slope)",
+    "tilt %/yr",
+    "t(W=1)",
+    "cost %/yr",
+    "total %/yr",
+    "t",
+    "|resid|"
+   ],
+   "rows": [
+    [
+     "1975-1989",
+     "58",
+     "0.899",
+     "+3.52",
+     "+1.98",
+     "+2.51",
+     "-0.68",
+     "-0.68",
+     "-0.15",
+     "+2.69",
+     "+1.39",
+     "0.0e+00"
+    ],
+    [
+     "1990-2004",
+     "60",
+     "1.149",
+     "+2.25",
+     "+1.22",
+     "+1.30",
+     "+0.87",
+     "+1.74",
+     "-0.16",
+     "+2.96",
+     "+1.67",
+     "3.5e-16"
+    ],
+    [
+     "2005-2019",
+     "60",
+     "1.046",
+     "+0.48",
+     "+0.34",
+     "+0.35",
+     "-0.05",
+     "+0.34",
+     "-0.09",
+     "+0.34",
+     "+0.24",
+     "4.3e-17"
+    ],
+    [
+     "2020-2026",
+     "26",
+     "1.108",
+     "+4.62",
+     "+2.20",
+     "+3.71",
+     "+0.21",
+     "+0.80",
+     "-0.07",
+     "+4.76",
+     "+1.95",
+     "2.1e-15"
+    ]
+   ],
+   "note": null
+  },
+  {
+   "type": "h2",
+   "text": "3c) Block bootstrap on the timing term, CP-only vs S agreement (quarterly)"
+  },
+  {
+   "type": "table",
+   "title": null,
+   "headers": [
+    "design",
+    "timing %/yr",
+    "HAC t",
+    "95% CI",
+    "P(timing <= 0)"
+   ],
+   "rows": [
+    [
+     "CP-only",
+     "+1.89",
+     "+1.69",
+     "[-0.48, +3.87]",
+     "0.056"
+    ],
+    [
+     "S agreement",
+     "+2.32",
+     "+2.47",
+     "[+0.41, +3.97]",
+     "0.007"
+    ]
+   ],
+   "note": "5,000 block bootstraps, block length 4 quarters."
+  }
+ ]
+}

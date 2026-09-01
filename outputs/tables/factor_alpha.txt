@@ -1,0 +1,80 @@
+================================================================================================
+Factor-model alpha - strategy return regressed on HML
+r_strategy = alpha + beta * r_HML + e (Newey-West), against the benchmark-difference alpha reported everywhere else
+================================================================================================
+alpha_reg is the regression intercept, beta estimated. alpha_diff is mean(timed) -
+mean(HML), beta forced to 1. Both annualised percent. The last column is their gap,
+which equals (beta - 1) * E[r_HML].
+
+------------------------------------------------------------------------------------------------
+1) CP-only overlay  w = 1 + tanh(z_CP),  by frequency (1975+, net 10bps)
+------------------------------------------------------------------------------------------------
+| label     |   n | alpha_reg %/yr | NW t(a) |   beta | NW t(b-1) |    R2 | alpha_diff %/yr | diff - reg |
+|-----------|-----|----------------|---------|--------|-----------|-------|-----------------|------------|
+| Monthly   | 611 |          +1.65 |   +1.82 | +0.914 |     -0.85 | 0.734 |           +1.36 |      -0.29 |
+| Quarterly | 204 |          +2.19 |   +2.56 | +0.885 |     -1.01 | 0.738 |           +1.78 |      -0.41 |
+| Annual    |  51 |          +2.04 |   +2.66 | +0.965 |     -0.37 | 0.778 |           +1.91 |      -0.13 |
+beta is the beta of the timed portfolio on HML. NW t(b-1) tests beta = 1.
+E[r_HML] on each sample, the multiplier in the reconciliation
+  E[HML] on the Monthly sample   : +3.39 %/yr
+  E[HML] on the Quarterly sample : +3.58 %/yr
+  E[HML] on the Annual sample    : +3.70 %/yr
+
+------------------------------------------------------------------------------------------------
+2) Identity check: the active return regressed on HML
+------------------------------------------------------------------------------------------------
+active = timed - hml, so regressing active on hml returns the same intercept with
+beta lower by exactly 1. The check column reports both differences.
+| period    | alpha (timed) | alpha (active) | |d alpha| | beta (timed) | beta (active) | |d(beta-1)| | check |
+|-----------|---------------|----------------|-----------|--------------|---------------|-------------|-------|
+| Monthly   |       +1.6466 |        +1.6466 |  6.66e-16 |      +0.9140 |       -0.0860 |    8.33e-16 |  PASS |
+| Quarterly |       +2.1934 |        +2.1934 |  2.66e-15 |      +0.8850 |       -0.1150 |    5.00e-16 |  PASS |
+| Annual    |       +2.0354 |        +2.0354 |  4.44e-16 |      +0.9649 |       -0.0351 |    8.33e-17 |  PASS |
+
+------------------------------------------------------------------------------------------------
+3) CP-only overlay, quarterly sub-periods
+------------------------------------------------------------------------------------------------
+| label     |  n | alpha_reg %/yr | NW t(a) |   beta | NW t(b-1) |    R2 | alpha_diff %/yr | diff - reg |
+|-----------|----|----------------|---------|--------|-----------|-------|-----------------|------------|
+| 1975-1989 | 58 |          +2.40 |   +1.93 | +1.116 |     +0.65 | 0.782 |           +3.18 |      +0.77 |
+| 1990-2004 | 60 |          +2.00 |   +1.27 | +0.644 |     -1.82 | 0.555 |           -0.07 |      -2.07 |
+| 2005-2019 | 60 |          +0.54 |   +0.45 | +1.078 |     +0.83 | 0.886 |           +0.47 |      -0.08 |
+| 2020-2026 | 26 |          +6.27 |   +3.61 | +0.854 |     -1.72 | 0.895 |           +5.98 |      -0.29 |
+Quarterly, net 10bps. Sub-periods partition the sample.
+
+------------------------------------------------------------------------------------------------
+4) The seven CP x spread designs, quarterly
+------------------------------------------------------------------------------------------------
+All seven designs share one sample: the spread starts later than CP and its rolling
+percentile needs 40 quarters.
+| label       |   n | alpha_reg %/yr | NW t(a) |   beta | NW t(b-1) |    R2 | alpha_diff %/yr | diff - reg |
+|-------------|-----|----------------|---------|--------|-----------|-------|-----------------|------------|
+| CP-only     | 204 |          +2.19 |   +2.56 | +0.885 |     -1.01 | 0.738 |           +1.78 |      -0.41 |
+| Spread-only | 204 |          -0.42 |   -0.35 | +1.503 |     +3.90 | 0.852 |           +1.38 |      +1.80 |
+| Additive    | 204 |          +0.90 |   +1.41 | +1.194 |     +3.52 | 0.919 |           +1.59 |      +0.69 |
+| Gated       | 204 |          +1.52 |   +2.25 | +0.875 |     -1.17 | 0.794 |           +1.07 |      -0.45 |
+| A monotonic | 204 |          +2.70 |   +2.28 | +0.781 |     -1.19 | 0.513 |           +1.92 |      -0.78 |
+| B U-shaped  | 204 |          +3.21 |   +2.75 | +0.754 |     -1.37 | 0.499 |           +2.33 |      -0.88 |
+| S agreement | 204 |          +2.15 |   +2.61 | +1.055 |     +0.76 | 0.820 |           +2.34 |      +0.20 |
+On the spread's common sample, so the CP-only row differs from section 1's.
+
+------------------------------------------------------------------------------------------------
+4b) S agreement, quarterly sub-periods
+------------------------------------------------------------------------------------------------
+| label     |  n | alpha_reg %/yr | NW t(a) |   beta | NW t(b-1) |    R2 | alpha_diff %/yr | diff - reg |
+|-----------|----|----------------|---------|--------|-----------|-------|-----------------|------------|
+| 1975-1989 | 58 |          +2.91 |   +2.21 | +0.967 |     -0.17 | 0.680 |           +2.69 |      -0.22 |
+| 1990-2004 | 60 |          +2.68 |   +2.01 | +1.049 |     +0.36 | 0.830 |           +2.96 |      +0.28 |
+| 2005-2019 | 60 |          +0.45 |   +0.31 | +1.108 |     +0.87 | 0.836 |           +0.34 |      -0.11 |
+| 2020-2026 | 26 |          +4.61 |   +2.15 | +1.074 |     +0.75 | 0.914 |           +4.76 |      +0.15 |
+Quarterly only: the spread percentile uses a 60-quarter rolling window.
+
+------------------------------------------------------------------------------------------------
+5) Five-factor spec (quarterly): r = a + b1 Mkt-RF + b2 SMB + b3 HML + b4 RMW + b5 CMA
+------------------------------------------------------------------------------------------------
+Quarterly factors, compounded from daily. NW 4 lags.
+| strategy    |   n | alpha %/yr | NW t(a) | Mkt-RF |    SMB |    HML |    RMW |    CMA |    R2 |
+|-------------|-----|------------|---------|--------|--------|--------|--------|--------|-------|
+| CP-only     | 204 |      +2.62 |   +2.67 | +0.037 | -0.148 | +0.928 | -0.187 | +0.019 | 0.760 |
+| S agreement | 204 |      +1.71 |   +1.72 | +0.043 | -0.071 | +1.009 | -0.022 | +0.145 | 0.825 |
+alpha is annualised percent; loadings are on quarterly factor returns.
