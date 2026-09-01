@@ -6,7 +6,7 @@ reproduced on its own with `cd src && python <script>.py`.
 
 ## Conventions
 
-Scripts appear in the order the argument is made, not alphabetically. Each is introduced by a
+Each script is introduced by a
 description of what it computes; the numbers below each introduction are exactly what the
 script printed.
 
